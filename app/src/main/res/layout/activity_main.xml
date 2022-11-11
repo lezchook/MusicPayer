@@ -15,6 +15,7 @@
             android:layout_height="100dp">
 
             <Button
+                android:id="@+id/favouriteBtn"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:contentDescription="@string/favourite"
