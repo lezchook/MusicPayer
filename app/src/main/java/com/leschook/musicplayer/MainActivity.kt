@@ -1,7 +1,9 @@
 package com.leschook.musicplayer
 
 import android.annotation.SuppressLint
+import android.content.ContentUris
 import android.content.pm.PackageManager
+import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.provider.MediaStore
@@ -53,7 +55,6 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun initializeLayout() {
-        val musicList = ArrayList<String>()
         MusicList = getAllMusicFiles()
         binding.musicRecyclerView.setHasFixedSize(true)
         binding.musicRecyclerView.setItemViewCacheSize(13)
@@ -67,7 +68,8 @@ class MainActivity : AppCompatActivity() {
         val tempList = ArrayList<Music>()
         val selection = MediaStore.Audio.Media.IS_MUSIC + " !=0"
         val projection = arrayOf(MediaStore.Audio.Media._ID, MediaStore.Audio.Media.TITLE, MediaStore.Audio.Media.ALBUM,
-        MediaStore.Audio.Media.ARTIST, MediaStore.Audio.Media.DURATION, MediaStore.Audio.Media.DATE_ADDED, MediaStore.Audio.Media.DATA)
+        MediaStore.Audio.Media.ARTIST, MediaStore.Audio.Media.DURATION, MediaStore.Audio.Media.DATE_ADDED, MediaStore.Audio.Media.DATA,
+        MediaStore.Audio.Media.ALBUM_ID)
         val select = this.contentResolver.query(MediaStore.Audio.Media.EXTERNAL_CONTENT_URI, projection, selection, null,
         MediaStore.Audio.Media.DATE_ADDED + " DESC", null)
         if (select != null) {
@@ -79,7 +81,11 @@ class MainActivity : AppCompatActivity() {
                     val artist = select.getString(select.getColumnIndex(MediaStore.Audio.Media.ARTIST))
                     val length = select.getLong(select.getColumnIndex(MediaStore.Audio.Media.DURATION))
                     val path = select.getString(select.getColumnIndex(MediaStore.Audio.Media.DATA))
-                    val music = Music(id, title, album, artist, length, path)
+                    val uri = Uri.parse("content://media/external/audio/albumart")
+                    val idColumn = select.getColumnIndex(MediaStore.Audio.Media._ID)
+                    val thisId = select.getLong(idColumn);
+                    val albumArtUri = ContentUris.withAppendedId(uri, thisId);
+                    val music = Music(id, title, album, artist, length, path, albumArtUri)
                     val file =  File(music.path)
                     if (file.exists()) {
                         tempList.add(music)
