@@ -80,6 +80,7 @@
         android:layout_margin="20dp">
 
         <TextView
+            android:id="@+id/seekBarStatus"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:textColor="@color/black"
@@ -87,11 +88,13 @@
             android:text="@string/start"/>
 
         <androidx.appcompat.widget.AppCompatSeekBar
+            android:id="@+id/seekBar"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_weight="1"/>
 
         <TextView
+            android:id="@+id/seekBarEnd"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:textColor="@color/black"

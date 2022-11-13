@@ -3,6 +3,9 @@ package com.leschook.musicplayer
 import android.media.MediaPlayer
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
+import android.widget.SeekBar
 import com.bumptech.glide.Glide
 import com.leschook.musicplayer.databinding.ActivityPlayerBinding
 
@@ -16,6 +19,7 @@ class PlayerActivity : AppCompatActivity() {
         var flag: Boolean = false
     }
 
+    private lateinit var runnable: Runnable
     private lateinit var binding: ActivityPlayerBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -41,6 +45,16 @@ class PlayerActivity : AppCompatActivity() {
                 binding.nextBtn.setOnClickListener {
                     previousOrNextMusic(true)
                 }
+                binding.seekBar.setOnSeekBarChangeListener(object: SeekBar.OnSeekBarChangeListener {
+                    override fun onProgressChanged(p0: SeekBar?, p1: Int, p2: Boolean) {
+                        if(p2) {
+                            mediaPlayer!!.seekTo(p1)
+                        }
+                    }
+
+                    override fun onStartTrackingTouch(p0: SeekBar?) = Unit
+                    override fun onStopTrackingTouch(p0: SeekBar?) = Unit
+                })
             }
         }
     }
@@ -90,5 +104,13 @@ class PlayerActivity : AppCompatActivity() {
         mediaPlayer!!.start()
         flag = true
         binding.playPauseBtn.setImageResource(R.drawable.ic_pause)
+        binding.seekBarEnd.text = duration(mediaPlayer!!.duration.toLong())
+        binding.seekBar.max = mediaPlayer!!.duration
+        runnable = Runnable {
+            binding.seekBarStatus.text = duration(mediaPlayer!!.currentPosition.toLong())
+            binding.seekBar.progress = mediaPlayer!!.currentPosition
+            Handler(Looper.getMainLooper()).postDelayed(runnable, 200)
+        }
+        Handler(Looper.getMainLooper()).postDelayed(runnable, 0)
     }
 }
