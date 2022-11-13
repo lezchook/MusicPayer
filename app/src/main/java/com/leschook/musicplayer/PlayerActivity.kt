@@ -1,6 +1,8 @@
 package com.leschook.musicplayer
 
+import android.content.Intent
 import android.media.MediaPlayer
+import android.media.audiofx.AudioEffect
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Handler
@@ -55,6 +57,13 @@ class PlayerActivity : AppCompatActivity() {
                     override fun onStartTrackingTouch(p0: SeekBar?) = Unit
                     override fun onStopTrackingTouch(p0: SeekBar?) = Unit
                 })
+                binding.equalizerBtn.setOnClickListener {
+                    val intent = Intent(AudioEffect.ACTION_DISPLAY_AUDIO_EFFECT_CONTROL_PANEL)
+                    intent.putExtra(AudioEffect.EXTRA_AUDIO_SESSION, mediaPlayer!!.audioSessionId)
+                    intent.putExtra(AudioEffect.EXTRA_PACKAGE_NAME, baseContext.packageName)
+                    intent.putExtra(AudioEffect.EXTRA_CONTENT_TYPE, AudioEffect.CONTENT_TYPE_MUSIC)
+                    startActivityForResult(intent, 13)
+                }
             }
         }
     }
