@@ -32,11 +32,13 @@
     </LinearLayout>
 
     <com.google.android.material.imageview.ShapeableImageView
+        android:id="@+id/musicImage"
         android:layout_width="250dp"
         android:layout_height="250dp"
         android:layout_margin="10dp"/>
 
     <TextView
+        android:id="@+id/musicName"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="20dp"
@@ -53,15 +55,18 @@
         android:gravity="center">
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/previousBtn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@drawable/ic_skip_previous"/>
         <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/playPauseBtn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@drawable/ic_pause"
             android:layout_marginHorizontal="25dp"/>
         <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/nextBtn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@drawable/ic_skip_next"/>
