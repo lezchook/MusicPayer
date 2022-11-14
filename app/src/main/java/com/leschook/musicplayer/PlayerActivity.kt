@@ -80,7 +80,7 @@ class PlayerActivity : AppCompatActivity() {
             }
             "FavouriteAdapter" -> {
                 musicList = ArrayList()
-                musicList.addAll(MainActivity.MusicList)
+                musicList.addAll(FavouriteActivity.favouriteSongs)
                 setMusic()
                 binding.playPauseBtn.setOnClickListener {
                     if (flag) {
