@@ -19,6 +19,8 @@ class PlayerActivity : AppCompatActivity() {
         var musicPosition: Int = 0
         var mediaPlayer: MediaPlayer? = null
         var flag: Boolean = false
+        var favourite: Boolean = false
+        var fIndex: Int = -1
     }
 
     private lateinit var runnable: Runnable
@@ -64,6 +66,17 @@ class PlayerActivity : AppCompatActivity() {
                     intent.putExtra(AudioEffect.EXTRA_CONTENT_TYPE, AudioEffect.CONTENT_TYPE_MUSIC)
                     startActivityForResult(intent, 13)
                 }
+                binding.favouriteBtn.setOnClickListener {
+                    if (favourite) {
+                        favourite = false
+                        binding.favouriteBtn.setImageResource(R.drawable.ic_favorite_border)
+                        FavouriteActivity.favouriteSongs.removeAt(fIndex)
+                    } else {
+                        favourite = true
+                        binding.favouriteBtn.setImageResource(R.drawable.ic_favorite)
+                        FavouriteActivity.favouriteSongs.add(musicList[musicPosition])
+                    }
+                }
             }
         }
     }
@@ -99,11 +112,17 @@ class PlayerActivity : AppCompatActivity() {
     }
 
     private fun setMusic() {
+        fIndex = favouriteCheck(musicList[musicPosition].id)
         Glide.with(this)
             .load(musicList[musicPosition].albumArtUri)
             .placeholder(R.mipmap.ic_launcher)
             .into(binding.musicImage)
         binding.musicName.text = musicList[musicPosition].title
+        if (favourite) {
+            binding.favouriteBtn.setImageResource(R.drawable.ic_favorite)
+        } else {
+            binding.favouriteBtn.setImageResource(R.drawable.ic_favorite_border)
+        }
         if (mediaPlayer == null) {
             mediaPlayer = MediaPlayer()
         }

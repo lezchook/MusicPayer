@@ -2,6 +2,7 @@ package com.leschook.musicplayer
 
 import android.annotation.SuppressLint
 import android.content.ContentUris
+import android.content.Intent
 import android.content.pm.PackageManager
 import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
@@ -29,7 +30,7 @@ class MainActivity : AppCompatActivity() {
         requestPermission()
         initializeLayout()
         binding.favouriteBtn.setOnClickListener {
-
+            startActivity(Intent(this@MainActivity, FavouriteActivity::class.java))
         }
         binding.playlist.setOnClickListener {
 

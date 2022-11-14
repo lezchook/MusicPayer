@@ -11,3 +11,14 @@ fun duration(duration: Long): String {
     val seconds = (TimeUnit.SECONDS.convert(duration, TimeUnit.MILLISECONDS) - minutes * TimeUnit.SECONDS.convert(1, TimeUnit.MINUTES))
     return String.format("%02d:%02d", minutes, seconds)
 }
+
+fun favouriteCheck(id: String): Int{
+    PlayerActivity.favourite = false
+    FavouriteActivity.favouriteSongs.forEachIndexed { index, music ->
+        if(id == music.id){
+            PlayerActivity.favourite = true
+            return index
+        }
+    }
+    return -1
+}
