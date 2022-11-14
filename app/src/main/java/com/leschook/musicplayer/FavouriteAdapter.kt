@@ -33,7 +33,7 @@ class FavouriteAdapter(private val context: Context, private val musicList: Arra
         holder.root.setOnClickListener {
             val intent = Intent(context, PlayerActivity::class.java)
             intent.putExtra("index", position)
-            intent.putExtra("class", "MusicAdapter")
+            intent.putExtra("class", "FavouriteAdapter")
             ContextCompat.startActivity(context, intent, null)
         }
 

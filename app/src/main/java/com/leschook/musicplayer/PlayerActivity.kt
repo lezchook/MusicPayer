@@ -78,6 +78,52 @@ class PlayerActivity : AppCompatActivity() {
                     }
                 }
             }
+            "FavouriteAdapter" -> {
+                musicList = ArrayList()
+                musicList.addAll(MainActivity.MusicList)
+                setMusic()
+                binding.playPauseBtn.setOnClickListener {
+                    if (flag) {
+                        pauseMusic()
+                    } else {
+                        playMusic()
+                    }
+                }
+                binding.previousBtn.setOnClickListener {
+                    previousOrNextMusic(false)
+                }
+                binding.nextBtn.setOnClickListener {
+                    previousOrNextMusic(true)
+                }
+                binding.seekBar.setOnSeekBarChangeListener(object: SeekBar.OnSeekBarChangeListener {
+                    override fun onProgressChanged(p0: SeekBar?, p1: Int, p2: Boolean) {
+                        if(p2) {
+                            mediaPlayer!!.seekTo(p1)
+                        }
+                    }
+
+                    override fun onStartTrackingTouch(p0: SeekBar?) = Unit
+                    override fun onStopTrackingTouch(p0: SeekBar?) = Unit
+                })
+                binding.equalizerBtn.setOnClickListener {
+                    val intent = Intent(AudioEffect.ACTION_DISPLAY_AUDIO_EFFECT_CONTROL_PANEL)
+                    intent.putExtra(AudioEffect.EXTRA_AUDIO_SESSION, mediaPlayer!!.audioSessionId)
+                    intent.putExtra(AudioEffect.EXTRA_PACKAGE_NAME, baseContext.packageName)
+                    intent.putExtra(AudioEffect.EXTRA_CONTENT_TYPE, AudioEffect.CONTENT_TYPE_MUSIC)
+                    startActivityForResult(intent, 13)
+                }
+                binding.favouriteBtn.setOnClickListener {
+                    if (favourite) {
+                        favourite = false
+                        binding.favouriteBtn.setImageResource(R.drawable.ic_favorite_border)
+                        FavouriteActivity.favouriteSongs.removeAt(fIndex)
+                    } else {
+                        favourite = true
+                        binding.favouriteBtn.setImageResource(R.drawable.ic_favorite)
+                        FavouriteActivity.favouriteSongs.add(musicList[musicPosition])
+                    }
+                }
+            }
         }
     }
 
