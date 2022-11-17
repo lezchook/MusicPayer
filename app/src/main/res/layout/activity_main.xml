@@ -31,9 +31,9 @@
                 android:contentDescription="@string/playlists"
                 style="@style/Widget.AppCompat.Button.Borderless"
                 android:layout_weight="1"
-                android:text="@string/playlists"
+                android:text="@string/equalizer"
                 android:textColor="@color/black"
-                android:drawableTop="@drawable/ic_album"/>
+                android:drawableTop="@drawable/ic_equalizer"/>
         </LinearLayout>
         <TextView
             android:layout_width="match_parent"

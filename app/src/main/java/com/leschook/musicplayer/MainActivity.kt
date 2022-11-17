@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.content.ContentUris
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.media.audiofx.AudioEffect
 import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -33,7 +34,15 @@ class MainActivity : AppCompatActivity() {
             startActivity(Intent(this@MainActivity, FavouriteActivity::class.java))
         }
         binding.playlist.setOnClickListener {
-
+            if (PlayerActivity.mediaPlayer?.isPlaying == true) {
+                val intent = Intent(AudioEffect.ACTION_DISPLAY_AUDIO_EFFECT_CONTROL_PANEL)
+                intent.putExtra(AudioEffect.EXTRA_AUDIO_SESSION, PlayerActivity.mediaPlayer!!.audioSessionId)
+                intent.putExtra(AudioEffect.EXTRA_PACKAGE_NAME, baseContext.packageName)
+                intent.putExtra(AudioEffect.EXTRA_CONTENT_TYPE, AudioEffect.CONTENT_TYPE_MUSIC)
+                startActivityForResult(intent, 13)
+            } else {
+                Toast.makeText(this, "Error, you need play music", Toast.LENGTH_SHORT).show()
+            }
         }
     }
 
@@ -48,7 +57,7 @@ class MainActivity : AppCompatActivity() {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         if (requestCode == 13) {
             if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                Toast.makeText(this, "Permission Granted", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, "Complete", Toast.LENGTH_SHORT).show()
             } else {
                 ActivityCompat.requestPermissions(this, arrayOf(android.Manifest.permission.WRITE_EXTERNAL_STORAGE), 13)
             }
@@ -59,8 +68,8 @@ class MainActivity : AppCompatActivity() {
         MusicList = getAllMusicFiles()
         binding.musicRecyclerView.setHasFixedSize(true)
         binding.musicRecyclerView.setItemViewCacheSize(13)
-        binding.musicRecyclerView.layoutManager = LinearLayoutManager(this@MainActivity)
-        musicAdapter = MusicAdapter(this@MainActivity, MusicList)
+        binding.musicRecyclerView.layoutManager = LinearLayoutManager(this)
+        musicAdapter = MusicAdapter(this, MusicList)
         binding.musicRecyclerView.adapter = musicAdapter
     }
 

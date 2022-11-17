@@ -98,16 +98,6 @@
             android:text="@string/favourite"
             android:src="@drawable/ic_favorite"/>
 
-        <Button
-            android:id="@+id/equalizerBtn"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:contentDescription="@string/favourite"
-            style="@style/Widget.AppCompat.Button.Borderless"
-            android:layout_weight="1"
-            android:textColor="@color/black"
-            android:text="@string/equalizer"
-            android:drawableTop="@drawable/ic_equalizer"/>
 
     </LinearLayout>
 </LinearLayout>
